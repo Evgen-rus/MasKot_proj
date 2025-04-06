@@ -5,7 +5,7 @@
 """
 
 import flet as ft
-from utils.localization import Localization
+from zen_cat.utils.localization import Localization
 
 
 class About(ft.UserControl):

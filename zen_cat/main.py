@@ -5,12 +5,12 @@
 """
 
 import flet as ft
-from utils.localization import Localization
-from components.header import Header
-from components.services import Services
-from components.about import About
-from components.contact_form import ContactForm
-from components.footer import Footer
+from zen_cat.utils.localization import Localization
+from zen_cat.components.header import Header
+from zen_cat.components.services import Services
+from zen_cat.components.about import About
+from zen_cat.components.contact_form import ContactForm
+from zen_cat.components.footer import Footer
 
 
 # Тема приложения с цветами и отступами
