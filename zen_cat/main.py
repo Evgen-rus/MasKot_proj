@@ -39,7 +39,7 @@ THEME = {
 }
 
 
-class ZenCatApp(ft.UserControl):
+class ZenCatApp:
     """
     Основной класс приложения Zen-кот.
     
@@ -54,7 +54,6 @@ class ZenCatApp(ft.UserControl):
         Args:
             page (ft.Page): Объект страницы Flet
         """
-        super().__init__()
         self.page = page
         self.localization = Localization()  # Создаем объект локализации
         
@@ -70,6 +69,7 @@ class ZenCatApp(ft.UserControl):
         self.services = Services(self.localization, THEME)
         self.about = About(self.localization, THEME)
         self.contact_form = ContactForm(self.localization, THEME)
+        self.contact_form.page = self.page  # Устанавливаем page для формы
         self.footer = Footer(self.localization, THEME)
         
         # Элементы основного экрана
@@ -77,12 +77,15 @@ class ZenCatApp(ft.UserControl):
         self.main_subtitle = ft.Text()
         
         # Создание контейнеров для компонентов
-        self.header_container = ft.Container(content=self.header)
+        self.header_container = ft.Container(content=self.header.container)
         self.main_container = self._create_main_screen()
-        self.services_container = ft.Container(content=self.services)
-        self.about_container = ft.Container(content=self.about)
-        self.contact_container = ft.Container(content=self.contact_form)
-        self.footer_container = ft.Container(content=self.footer)
+        self.services_container = ft.Container(content=self.services.container)
+        self.about_container = ft.Container(content=self.about.container)
+        self.contact_container = ft.Container(content=self.contact_form.container)
+        self.footer_container = ft.Container(content=self.footer.container)
+        
+        # Добавляем основной контейнер на страницу
+        self.build()
     
     def _create_main_screen(self):
         """
@@ -134,10 +137,7 @@ class ZenCatApp(ft.UserControl):
     
     def build(self):
         """
-        Строит основной интерфейс приложения.
-        
-        Returns:
-            ft.Column: Основной столбец с содержимым приложения
+        Строит основной интерфейс приложения и добавляет его на страницу.
         """
         # Основной контейнер с максимальной шириной для контента
         content = ft.Container(
@@ -156,8 +156,8 @@ class ZenCatApp(ft.UserControl):
             padding=ft.padding.only(left=THEME["spacing"]["md"], right=THEME["spacing"]["md"]),
         )
         
-        # Возвращаем основной контейнер
-        return content
+        # Добавляем контент на страницу
+        self.page.add(content)
     
     def toggle_language(self, e):
         """
@@ -184,7 +184,8 @@ class ZenCatApp(ft.UserControl):
         self.main_title.value = self.localization.get("main_title")
         self.main_subtitle.value = self.localization.get("main_subtitle")
         
-        self.update()
+        # Обновляем страницу
+        self.page.update()
 
 
 def main(page: ft.Page):
@@ -196,9 +197,6 @@ def main(page: ft.Page):
     """
     # Создаем экземпляр приложения
     app = ZenCatApp(page)
-    
-    # Добавляем приложение на страницу
-    page.add(app)
 
 
 # Запуск приложения в веб-браузере

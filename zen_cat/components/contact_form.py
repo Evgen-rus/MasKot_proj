@@ -9,7 +9,7 @@ import flet as ft
 from zen_cat.utils.localization import Localization
 
 
-class ContactForm(ft.UserControl):
+class ContactForm:
     """
     Компонент формы обратной связи.
     
@@ -26,9 +26,9 @@ class ContactForm(ft.UserControl):
             localization (Localization): Объект локализации
             theme (dict): Словарь с настройками темы
         """
-        super().__init__()
         self.localization = localization
         self.theme = theme
+        self.page = None  # Будет установлено позже
         
         # Элементы формы
         self.title = ft.Text()
@@ -45,6 +45,9 @@ class ContactForm(ft.UserControl):
         self.cat_normal = ft.Text("😸", size=60, text_align=ft.TextAlign.CENTER)
         self.cat_happy = ft.Text("😻", size=60, text_align=ft.TextAlign.CENTER)
         self.cat_container = ft.Container()
+        
+        # Создаем контейнер
+        self.container = self.build()
     
     def build(self):
         """
@@ -97,13 +100,8 @@ class ContactForm(ft.UserControl):
             text=self.localization.get("submit_button"),
             on_click=self._submit_form,
             style=ft.ButtonStyle(
-                bgcolor={
-                    ft.MaterialState.DEFAULT: self.theme["colors"]["primary"],
-                    ft.MaterialState.HOVERED: "#26bfad",  # Чуть темнее при наведении
-                },
-                color={
-                    ft.MaterialState.DEFAULT: self.theme["colors"]["white"],
-                },
+                color=self.theme["colors"]["white"],
+                bgcolor=self.theme["colors"]["primary"],
                 shape=ft.RoundedRectangleBorder(radius=8),
                 animation_duration=300,
             ),
@@ -196,11 +194,9 @@ class ContactForm(ft.UserControl):
         self.email_field.value = ""
         self.message_field.value = ""
         
-        # Обновляем компонент
-        self.update()
-        
         # Через 5 секунд возвращаем кота в нормальное состояние
-        self.page.add_delayed_action(5, self._reset_cat)
+        if hasattr(self, 'page') and self.page:
+            self.page.add_delayed_action(5, self._reset_cat)
     
     def _reset_cat(self):
         """
@@ -212,7 +208,6 @@ class ContactForm(ft.UserControl):
         self.cat_container.content = self.cat_normal
         self.success_message.visible = False
         self.is_submitted = False
-        self.update()
     
     def update_texts(self):
         """
@@ -226,5 +221,4 @@ class ContactForm(ft.UserControl):
         self.message_field.label = self.localization.get("message_label")
         self.message_field.hint_text = self.localization.get("message_placeholder")
         self.submit_button.text = self.localization.get("submit_button")
-        self.success_message.value = self.localization.get("form_success")
-        self.update() 
+        self.success_message.value = self.localization.get("form_success") 

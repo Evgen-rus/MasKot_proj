@@ -8,7 +8,7 @@ import flet as ft
 from zen_cat.utils.localization import Localization
 
 
-class Services(ft.UserControl):
+class Services:
     """
     Компонент блока услуг, содержащий карточки с описанием услуг.
     
@@ -25,7 +25,6 @@ class Services(ft.UserControl):
             localization (Localization): Объект локализации
             theme (dict): Словарь с настройками темы
         """
-        super().__init__()
         self.localization = localization
         self.theme = theme
         
@@ -34,6 +33,9 @@ class Services(ft.UserControl):
         
         # Карточки услуг
         self.service_cards = []
+        
+        # Создаем контейнер
+        self.container = self.build()
     
     def build(self):
         """
@@ -136,7 +138,7 @@ class Services(ft.UserControl):
             cards (list): Список карточек
             
         Returns:
-            ft.ResponsiveRow: Адаптивная сетка карточек
+            ft.Column: Адаптивная сетка карточек
         """
         # На мобильных устройствах - 2 колонки, на десктопе - 4 колонки
         return ft.Column(

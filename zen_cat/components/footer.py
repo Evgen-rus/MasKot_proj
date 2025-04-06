@@ -8,7 +8,7 @@ import flet as ft
 from zen_cat.utils.localization import Localization
 
 
-class Footer(ft.UserControl):
+class Footer:
     """
     Компонент футера с копирайтом.
     
@@ -25,12 +25,14 @@ class Footer(ft.UserControl):
             localization (Localization): Объект локализации
             theme (dict): Словарь с настройками темы
         """
-        super().__init__()
         self.localization = localization
         self.theme = theme
         
         # Копирайт
         self.copyright = ft.Text()
+        
+        # Создаем контейнер
+        self.container = self.build()
     
     def build(self):
         """
@@ -73,5 +75,4 @@ class Footer(ft.UserControl):
         """
         Обновляет тексты компонента в соответствии с текущим языком.
         """
-        self.copyright.value = self.localization.get("copyright")
-        self.update() 
+        self.copyright.value = self.localization.get("copyright") 

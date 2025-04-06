@@ -8,7 +8,7 @@ import flet as ft
 from zen_cat.utils.localization import Localization
 
 
-class Header(ft.UserControl):
+class Header:
     """
     Компонент шапки сайта, содержащий логотип и переключатель языка.
     
@@ -25,13 +25,15 @@ class Header(ft.UserControl):
             localization (Localization): Объект локализации
             on_language_change (callable): Функция обратного вызова при изменении языка
         """
-        super().__init__()
         self.localization = localization
         self.on_language_change = on_language_change
         
         # Элементы компонента
         self.logo_text = ft.Text()
         self.language_button = ft.TextButton()
+        
+        # Создаем контейнер
+        self.container = self.build()
     
     def build(self):
         """
@@ -66,7 +68,7 @@ class Header(ft.UserControl):
             content=ft.Row(
                 [
                     self.logo_text,
-                    ft.Spacer(),  # Пружина для разделения логотипа и кнопки
+                    ft.Container(expand=True),  # Пружина для разделения логотипа и кнопки
                     self.language_button
                 ],
                 alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
@@ -87,8 +89,6 @@ class Header(ft.UserControl):
         self.on_language_change(e)
         # Обновляем тексты в компоненте
         self._update_texts()
-        # Перерисовываем компонент
-        self.update()
     
     def _update_texts(self):
         """

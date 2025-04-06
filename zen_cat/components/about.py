@@ -8,7 +8,7 @@ import flet as ft
 from zen_cat.utils.localization import Localization
 
 
-class About(ft.UserControl):
+class About:
     """
     Компонент блока "О нас" с информацией и изображением кота.
     
@@ -25,13 +25,15 @@ class About(ft.UserControl):
             localization (Localization): Объект локализации
             theme (dict): Словарь с настройками темы
         """
-        super().__init__()
         self.localization = localization
         self.theme = theme
         
         # Элементы компонента
         self.title = ft.Text()
         self.description = ft.Text()
+        
+        # Создаем контейнер
+        self.container = self.build()
     
     def build(self):
         """
@@ -116,21 +118,14 @@ class About(ft.UserControl):
             padding=self.theme["spacing"]["md"],
         )
         
-        # Создаем адаптивный контейнер
-        # Примечание: в мобильной версии контент будет отображаться в колонке,
-        # в десктопной - в строке
-        return ft.ResponsiveRow(
+        # Вместо ResponsiveRow используем обычный Row
+        return ft.Row(
             [
-                ft.Column(
-                    [text_container],
-                    col={"xs": 12, "sm": 12, "md": 8, "lg": 8, "xl": 8}
-                ),
-                ft.Column(
-                    [image_container],
-                    col={"xs": 12, "sm": 12, "md": 4, "lg": 4, "xl": 4},
-                    horizontal_alignment=ft.CrossAxisAlignment.CENTER
-                )
-            ]
+                text_container,
+                image_container
+            ],
+            alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
+            vertical_alignment=ft.CrossAxisAlignment.CENTER
         )
     
     def update_texts(self):
@@ -138,5 +133,4 @@ class About(ft.UserControl):
         Обновляет тексты компонента в соответствии с текущим языком.
         """
         self.title.value = self.localization.get("about_title")
-        self.description.value = self.localization.get("about_text")
-        self.update() 
+        self.description.value = self.localization.get("about_text") 
