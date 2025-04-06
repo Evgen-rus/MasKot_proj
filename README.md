@@ -9,13 +9,52 @@
 
 - Python 3.10+
 - Flet (установка: `pip install flet`)
-- Запуск: `flet.app(target=main, view=flet.WEB_BROWSER)`
+- Запуск: `flet.app(target=main, view=ft.WEB_BROWSER)`
 
 ## Документация
 
 Flet ==0.27.6
 ссылка на документацию: https://flet.dev/docs
 
+## Установка и запуск
+
+### Установка
+
+1. Клонируйте репозиторий:
+```
+git clone [URL репозитория]
+cd [название папки проекта]
+```
+
+2. Создайте и активируйте виртуальное окружение:
+```
+python -m venv venv
+# Windows
+venv\Scripts\activate
+# Linux/macOS
+source venv/bin/activate
+```
+
+3. Установите зависимости:
+```
+pip install -r requirements.txt
+```
+
+### Запуск
+
+Запустите приложение одним из способов:
+
+1. Через основной файл запуска:
+```
+python zen_cat_app.py
+```
+
+2. Напрямую через модуль main:
+```
+python -m zen_cat.main
+```
+
+Приложение откроется в вашем веб-браузере по умолчанию.
 
 ## Архитектура проекта
 
